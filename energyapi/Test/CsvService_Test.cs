@@ -1,5 +1,5 @@
 namespace Test {
-    public class UnitTest1 {
+    public class CsvService_Test {
         [Fact]
         public void Test1() {
 
