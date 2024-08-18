@@ -12,8 +12,8 @@ namespace Test.Integration {
             var loggerController = new Mock<ILogger<MeterReadingController>>();
             var loggerCsvService = new Mock<ILogger<CsvService>>();
             var csvService = new CsvService(loggerCsvService.Object);
-            var mapper = new Mapper();
-            var controller = new MeterReadingController(loggerController.Object, csvService, );
+            //var mapper = new Mapper();
+            //var controller = new MeterReadingController(loggerController.Object, csvService, );
         }
 
         [Fact]
