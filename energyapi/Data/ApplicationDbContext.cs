@@ -6,8 +6,8 @@ using Microsoft.VisualBasic;
 
 namespace Data {
     public class ApplicationDbContext : DbContext {
-        public DbSet<Account> Accounts { get; set; }
-        public DbSet<MeterReading> MeterReadings { get; set; }
+        public virtual DbSet<Account> Accounts { get; set; }
+        public virtual DbSet<MeterReading> MeterReadings { get; set; }
 
         private readonly IConfiguration _configuration;
         private readonly ICsvService _csvService;

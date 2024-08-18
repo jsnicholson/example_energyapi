@@ -44,12 +44,14 @@ namespace Api.Controllers {
 
             var rawData = _csvService.Read<UploadMeterReadingRequest>(fileMeterReadings, out int countFailedToRead);
             var meterReadings = _mapper.Map<IEnumerable<MeterReading>>(rawData);
+            _validationService.FilterMeterReadingsViolatingPrimaryKey(ref meterReadings);
+            _validationService.FilterMeterReadingsNonExistingAccount(ref meterReadings);
             _validationService.FilterOldMeterReadings(ref meterReadings);
             var countSuccessfullyInserted = await _meterReadingRepository.CreateAsync(meterReadings);
 
             var response = new UploadMeterReadingResponse() {
                 countSucceeded = countSuccessfullyInserted,
-                countFailed = meterReadings.Count() + countFailedToRead - countSuccessfullyInserted 
+                countFailed = rawData.Count + countFailedToRead - countSuccessfullyInserted 
             };
             _logger.LogInformation($"{HttpContext.Request.Path.Value} responding:{JsonSerializer.Serialize(response)}");
             return new OkObjectResult(response);

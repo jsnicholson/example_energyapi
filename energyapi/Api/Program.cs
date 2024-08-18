@@ -11,9 +11,11 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString(Constants.Config.ENERGYCONNECTION)));
+    options.UseSqlite(builder.Configuration.GetConnectionString(Constants.Config.ENERGYCONNECTION))
+    .EnableSensitiveDataLogging());
 builder.Services.AddScoped<ICsvService, CsvService>();
 builder.Services.AddScoped<IMeterReadingRepository, MeterReadingRepository>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IValidationService, ValidationService>();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));

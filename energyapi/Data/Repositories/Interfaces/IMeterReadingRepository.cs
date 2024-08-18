@@ -21,6 +21,7 @@ namespace Data.Repositories.Interfaces {
         /// <returns>Newest MeterReading, or null if doesnt exist</returns>
         Task<MeterReading?> GetNewestAsync(int accountId);
         IEnumerable<MeterReading?> GetNewest(IEnumerable<int> accountIds);
-        Task<IEnumerable<MeterReading?>> GetNewestAsync(IEnumerable<int> accountIds);
+        bool Exists(int accountId, DateTime meterReadingDateTime);
+        bool Exists(MeterReading meterReading);
     }
 }

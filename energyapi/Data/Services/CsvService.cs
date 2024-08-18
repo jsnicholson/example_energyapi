@@ -3,11 +3,18 @@ using CsvHelper;
 using CsvHelper.Configuration;
 using CsvHelper.Configuration.Attributes;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using System.Globalization;
 using System.Reflection;
 
 namespace Api.Services {
     public class CsvService : ICsvService {
+        private ILogger _logger;
+
+        public CsvService(ILogger<CsvService> logger) {
+            _logger = logger;
+        }
+
         public List<T> Read<T>(string filePath) {
             using var reader = new StreamReader(filePath);
             using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture) {

@@ -16,23 +16,10 @@ namespace Data.Repositories {
         }
 
         public async Task<bool> CreateAsync(MeterReading meterReading) {
-            try {
-                _context.MeterReadings.Add(meterReading);
-                await _context.SaveChangesAsync();
-                _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} saving {nameof(MeterReading)}:{JsonSerializer.Serialize(meterReading)}");
-                return true;
-            } catch (DbUpdateException exception) {
-                _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} failed to save {nameof(MeterReading)}:{JsonSerializer.Serialize(meterReading)}");
-
-                if(exception.InnerException.Message.Contains("UNIQUE")
-                    || exception.InnerException.Message.Contains("FOREIGN")) {
-                    _context.Entry(meterReading).State = EntityState.Detached;
-                    return false;
-                }
-
-                // unexpected so throw
-                throw;
-            }
+            _context.MeterReadings.Add(meterReading);
+            await _context.SaveChangesAsync();
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} saving {nameof(MeterReading)}:{JsonSerializer.Serialize(meterReading)}");
+            return true;
         }
 
         public async Task<int> CreateAsync(IEnumerable<MeterReading> meterReadings) {
@@ -64,6 +51,16 @@ namespace Data.Repositories {
                 .GroupBy(mr => mr.AccountId)
                 .Select(g => g.OrderByDescending(mr => mr.MeterReadingDateTime).FirstOrDefault())
                 .ToListAsync();
+        }
+
+        public bool Exists(int accountId, DateTime meterReadingDateTime) {
+            return _context.MeterReadings.Any(mr => mr.AccountId == accountId 
+                && mr.MeterReadingDateTime == meterReadingDateTime);
+        }
+
+        public bool Exists(MeterReading meterReading) {
+            return _context.MeterReadings.Any(mr => mr.AccountId == meterReading.AccountId 
+                && mr.MeterReadingDateTime == meterReading.MeterReadingDateTime);
         }
     }
 }
