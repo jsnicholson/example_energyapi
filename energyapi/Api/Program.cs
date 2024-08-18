@@ -1,4 +1,6 @@
 using Api;
+using Api.Exceptions;
+using Api.Mapping;
 using Api.Services;
 using Api.Services.Interfaces;
 using Data;
