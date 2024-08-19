@@ -18,7 +18,7 @@ namespace Data.Repositories {
         public async Task<bool> CreateAsync(MeterReading meterReading) {
             _context.MeterReadings.Add(meterReading);
             await _context.SaveChangesAsync();
-            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} saving {nameof(MeterReading)}:{JsonSerializer.Serialize(meterReading)}");
+            _logger.LogInformation($"CreateAsync saving {nameof(MeterReading)}:{JsonSerializer.Serialize(meterReading)}");
             return true;
         }
 
