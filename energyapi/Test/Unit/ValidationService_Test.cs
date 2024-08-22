@@ -42,8 +42,9 @@ namespace Test.Unit
             var repository = new Mock<IMeterReadingRepository>();
             repository.Setup(x => x.GetNewest(It.IsAny<IEnumerable<int>>()))
                 .Returns(existingMeterReadings);
+            var accountRepository = new Mock<IAccountRepository>();
 
-            var validationService = new ValidationService(logger.Object, repository.Object);
+            var validationService = new ValidationService(logger.Object, repository.Object, accountRepository.Object);
 
             validationService.FilterOldMeterReadings(ref newMeterReadings);
 
